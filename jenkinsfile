@@ -27,14 +27,15 @@ pipeline {
 
         stage('Push Docker Images') {
             steps {
-                script{
+                script {
                     docker.withRegistry('', 'DockerHubCred') {
-                    sh 'docker tag calculator-image sejal28/calculator-image:latest'
-                    sh 'docker push sejal28/calculator-iamge'
+                        sh 'docker tag calculator-image sejal28/calculator-image:latest'
+                        sh 'docker push sejal28/calculator-image:latest'  // Corrected typo in the image name
                     }
-                 }
+                }
             }
         }
+
 
    stage('Run Ansible Playbook') {
             steps {
