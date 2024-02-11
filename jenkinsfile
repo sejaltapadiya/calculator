@@ -1,49 +1,31 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE_NAME = 'calculator'
-        GITHUB_REPO_URL = 'https://github.com/sejaltapadiya/calculator.git'
+    stages {
+        stage('Build') {
+            steps {
+                // Checkout the source code from the repository
+                git 'https://github.com/sejaltapadiya/calculator.git'
+
+                // Build your application (replace with your build command)
+                docker build -t calculator
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Deploy your application (replace with your deploy command)
+                sh 'your-deploy-command'
+            }
+        }
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                script {
-                    // Checkout the code from the GitHub repository
-                    git branch: 'main', url: "${GITHUB_REPO_URL}"
-                }
-            }
+    post {
+        success {
+            echo 'Pipeline succeeded! Any additional success steps can go here.'
         }
-
-        /*stage('Build Docker Image') {
-            steps {
-                script {
-                  docker build -t calculator .
-                }
-            }
+        failure {
+            echo 'Pipeline failed! Any additional failure steps can go here.'
         }
-
-        stage('Push Docker Images') {
-            steps {
-                script {
-                    docker.withRegistry('', 'DockerHubCred') {
-                        sh 'docker tag calculator sejal28/calculator:latest'
-                        sh 'docker push sejal28/calculator:latest'
-                    }
-                }
-            }
-        }
-
-        stage('Run Ansible Playbook') {
-            steps {
-                script {
-                    ansiblePlaybook(
-                        playbook: 'deploy.yml',
-                        inventory: 'inventory'
-                    )
-                }
-            }
-        }*/
     }
 }
