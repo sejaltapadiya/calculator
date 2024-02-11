@@ -20,8 +20,9 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-                    docker.build("${DOCKER_IMAGE_NAME}", './app/calculator').with {
-                        echo it.buildLog()
+                    //docker.build("${DOCKER_IMAGE_NAME}", './app/calculator').with {
+                       // echo it.buildLog()
+                    docker.build -t calculator .
                     }
                 }
             }
