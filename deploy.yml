@@ -2,7 +2,7 @@
 - name: Pull Docker Image from Docker Hub
   hosts: localhost
   remote_user: sejal
-  become: true
+  become: false
   tasks:
     - name: Pull Docker Image
       docker_image:
@@ -13,14 +13,10 @@
     - name: Display Docker Pull Result
       debug:
         var: docker_pull_result
-
-    - name: Ensure Docker service is started
+        
+    - name: Start Docker service
       service:
         name: docker
         state: started
-
-    - name: Run Docker Container
-      docker_container:
-        name: calculator
-        image: "sejal28/calculator"
-        state: started
+    - name: Running container
+      shell: docker run -it -d --name calculator sejal28/calculator
